@@ -1,0 +1,17 @@
+# archivos de referencia / originales que no carga el sitio
+referencia/
+personajes/*
+!personajes/logo_supernova.png
+!personajes/1.png
+!personajes/2.png
+!personajes/fondo_general.png
+
+# audio desactivado (por ahora no se usa en el sitio)
+musica.wav
+
+# sistema / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log
+node_modules/

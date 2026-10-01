@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Supernova</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="logo" href="#"><img src="personajes/logo_supernova.png" alt="SUPERNOVA"></a>
+  <nav class="nav">
+    <a href="#juego">JUGAR</a>
+    <a href="#bio">BIO</a>
+    <a href="#merch">MERCH</a>
+  </nav>
+  <a class="btn-enter" href="#juego">ENTRAR</a>
+</header>
+
+<section class="hero">
+  <canvas class="hero-fx" aria-hidden="true"></canvas>
+  <img class="hero-logo" src="personajes/logo_supernova.png" alt="SUPERNOVA">
+
+  <section class="cabinet" id="juego">
+    <div class="screen">
+      <canvas id="game" width="800" height="240"></canvas>
+      <button id="sound" class="sound" title="Sonido (M)" aria-label="Activar o silenciar sonido">🔊</button>
+
+      <div class="overlay" id="overlaySelect">
+        <p class="o-title small">ELEGÍ TU PERSONAJE</p>
+        <div class="chars">
+          <button class="char" data-i="0" id="char1" aria-label="Elegir a Coni Lewin">
+            <img id="charImg1" alt="Coni Lewin" class="hidden">
+            <span id="charFb1" class="avatar-fb">1</span>
+            <span class="cname">CONI LEWIN</span>
+          </button>
+          <button class="char" data-i="1" id="char2" aria-label="Elegir a Coni Lüer">
+            <img id="charImg2" alt="Coni Lüer" class="hidden">
+            <span id="charFb2" class="avatar-fb">2</span>
+            <span class="cname">CONI LÜER</span>
+          </button>
+        </div>
+        <p class="o-hint blink">CLIC EN TU PERSONAJE · O TECLAS 1 / 2</p>
+      </div>
+
+      <div class="overlay hidden" id="overlayOver">
+        <p class="o-title">GAME OVER</p>
+        <p class="o-score" id="finalScore">SCORE 00000 · HI 00000</p>
+        <div class="o-btns">
+          <button class="btn-replay" id="replay">▶ REPLAY</button>
+          <button class="btn-replay btn-alt" id="changeChar">CAMBIAR PERSONAJE</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <p class="howto" id="como">
+    CONDUCE JUNTO A LAS SUPERNOVA REVIVIENDO EL VIDEO DE TU Y YO · ESQUIVA TODOS LOS OBSTACULOS
+    <span>(ESPACIO = SALTAR · JUNTA MONEDAS QUE VALEN MÁS CUANTO MÁS LEJOS LLEGAS)</span>
+  </p>
+
+  <a class="scroll-hint" href="#bio" aria-label="Bajar a la bio">▼</a>
+</section>
+
+<!-- ============ BIO ============ -->
+<section class="bio-section" id="bio">
+  <canvas class="bio-fx" aria-hidden="true"></canvas>
+  <div class="sticker-wrap sw-1" data-speed="0.25"><img class="sticker" src="stickers/smiley.png" alt=""></div>
+  <div class="sticker-wrap sw-2" data-speed="-0.35"><img class="sticker" src="stickers/cassette.png" alt=""></div>
+  <div class="sticker-wrap sw-3" data-speed="0.45"><img class="sticker" src="stickers/lollipop.png" alt=""></div>
+  <div class="sticker-wrap sw-4" data-speed="-0.2"><img class="sticker" src="stickers/sparkle.png" alt=""></div>
+
+  <div class="bio-wrap">
+    <div class="os-window bio-window reveal">
+      <div class="os-titlebar">
+        <span class="os-title">SOBRE_NOSOTRAS.EXE</span>
+        <span class="os-buttons"><i class="b1"></i><i class="b2"></i><i class="b3"></i></span>
+      </div>
+      <div class="os-body">
+        <div class="bio-grid">
+          <div class="bio-copy">
+            <h2 class="bio-title">EL DÚO POP QUE<br>SE REBELÓ Y VOLVIÓ<br>A LA RUTA.</h2>
+            <p><strong>SUPERNOVA</strong> es el regreso de <strong>CONI LEWIN</strong> y <strong>CONI LÜER</strong>: las voces originales del pop chileno que marcó los 90 vuelven a girar por todo Chile con sus hits, la energía de siempre y una estética que mezcla nostalgia, videoconsola y carretera abierta.</p>
+            <p>Hits inolvidables, duendes de recital y un convertible blanco del 70 como bandera: esto es lo más parecido a un viaje en el tiempo que se puede cantar a 90 por hora.</p>
+            <div class="bio-stats">
+              <div class="stat"><b>2</b><span>CONIS</span></div>
+              <div class="stat"><b>1</b><span>LEGADO</span></div>
+              <div class="stat"><b>8</b><span>BITS</span></div>
+              <div class="stat"><b>∞</b><span>HITS</span></div>
+            </div>
+          </div>
+          <div class="bio-pilots">
+            <figure>
+              <img src="personajes/1.png" alt="Coni Lewin">
+              <figcaption>CONI LEWIN</figcaption>
+            </figure>
+            <figure>
+              <img src="personajes/2.png" alt="Coni Lüer">
+              <figcaption>CONI LÜER</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reproductor estándar de Spotify: embed oficial dentro de la ventana amarilla -->
+    <div class="os-window spotify-window reveal" style="--d:.12s">
+      <div class="os-titlebar tbar-yellow">
+        <span class="os-title">SPOTIFY.EXE — ESCUCHANOS</span>
+        <span class="os-buttons"><i class="b1"></i><i class="b2"></i><i class="b3"></i></span>
+      </div>
+      <div class="os-body spotify-body">
+        <div class="sp-frame">
+          <iframe src="https://open.spotify.com/embed/artist/4hp1i0d15TWg1YN3lCUWgq?utm_source=generator&theme=0" title="SUPERNOVA en Spotify" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+        </div>
+        <p class="sp-caption">♫ REPRODUCTOR OFICIAL DE SPOTIFY · TOP TRACKS</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TICKER ============ -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span>★ SUPERNOVA ★ CONI LEWIN ★ CONI LÜER ★ CADDY RUN ★ 8 BITS ★ NUEVO MERCH ★&nbsp;</span>
+    <span>★ SUPERNOVA ★ CONI LEWIN ★ CONI LÜER ★ CADDY RUN ★ 8 BITS ★ NUEVO MERCH ★&nbsp;</span>
+  </div>
+</div>
+
+<!-- ============ MERCH ============ -->
+<section class="merch-section" id="merch">
+  <div class="sticker-wrap sw-5" data-speed="0.3"><img class="sticker" src="stickers/floppy.png" alt=""></div>
+  <div class="sticker-wrap sw-6" data-speed="-0.4"><img class="sticker" src="stickers/carpeta.png" alt=""></div>
+
+  <h2 class="merch-heading reveal">MERCH.EXE</h2>
+  <p class="merch-sub reveal">ELEGÍ TU CARGAMENTO — TODO CON EL PARCHE SUPERNOVA</p>
+
+  <div class="merch-grid">
+    <article class="merch-card reveal" style="--rot:-2deg; --d:0s">
+      <div class="merch-imgwrap"><img src="merch/remera.png" alt="Remera Supernova"></div>
+      <div class="merch-info">
+        <h3>REMER.EXE</h3>
+        <p class="merch-price">$12.000</p>
+        <button class="btn-buy">COMPRAR</button>
+      </div>
+    </article>
+    <article class="merch-card reveal" style="--rot:1.5deg; --d:.06s">
+      <div class="merch-imgwrap"><img src="merch/buzo.png" alt="Buzo Supernova"></div>
+      <div class="merch-info">
+        <h3>BUZO.EXE</h3>
+        <p class="merch-price">$22.000</p>
+        <button class="btn-buy">COMPRAR</button>
+      </div>
+    </article>
+    <article class="merch-card reveal" style="--rot:-1deg; --d:.12s">
+      <div class="merch-imgwrap"><img src="merch/gorra.png" alt="Gorro Supernova"></div>
+      <div class="merch-info">
+        <h3>GORRO.EXE</h3>
+        <p class="merch-price">$9.000</p>
+        <button class="btn-buy">COMPRAR</button>
+      </div>
+    </article>
+    <article class="merch-card reveal" style="--rot:2deg; --d:.18s">
+      <div class="merch-imgwrap"><img src="merch/tote.png" alt="Tote bag Supernova"></div>
+      <div class="merch-info">
+        <h3>TOTE.EXE</h3>
+        <p class="merch-price">$8.500</p>
+        <button class="btn-buy">COMPRAR</button>
+      </div>
+    </article>
+    <article class="merch-card reveal" style="--rot:-1.5deg; --d:.24s">
+      <div class="merch-imgwrap"><img src="merch/taza.png" alt="Taza Supernova"></div>
+      <div class="merch-info">
+        <h3>TAZA.EXE</h3>
+        <p class="merch-price">$7.000</p>
+        <button class="btn-buy">COMPRAR</button>
+      </div>
+    </article>
+    <article class="merch-card reveal" style="--rot:1deg; --d:.3s">
+      <div class="merch-imgwrap"><img src="merch/vinilo.png" alt="Vinilo Supernova"></div>
+      <div class="merch-info">
+        <h3>VINILO.EXE</h3>
+        <p class="merch-price">$25.000</p>
+        <button class="btn-buy">COMPRAR</button>
+      </div>
+    </article>
+    <article class="merch-card reveal" style="--rot:-2deg; --d:.36s">
+      <div class="merch-imgwrap"><img src="merch/magneticos.png" alt="Magnéticos Supernova"></div>
+      <div class="merch-info">
+        <h3>MAGNÉTICOS.EXE</h3>
+        <p class="merch-price">$3.500</p>
+        <button class="btn-buy">COMPRAR</button>
+      </div>
+    </article>
+    <article class="merch-card reveal" style="--rot:1.5deg; --d:.42s">
+      <div class="merch-imgwrap"><img src="merch/llavero.png" alt="Llavero Supernova"></div>
+      <div class="merch-info">
+        <h3>LLAVERO.EXE</h3>
+        <p class="merch-price">$4.500</p>
+        <button class="btn-buy">COMPRAR</button>
+      </div>
+    </article>
+  </div>
+</section>
+
+<footer class="foot">SUPERNOVA · v2 — hecho con canvas + js</footer>
+
+<script src="game.js"></script>
+</body>
+</html>
