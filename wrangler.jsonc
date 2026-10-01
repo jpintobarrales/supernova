@@ -1,0 +1,12 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "supernova",
+  "compatibility_date": "2026-10-01",
+  "routes": [{ "pattern": "supernova.base86.dev", "custom_domain": true }],
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": "./dist"
+  }
+}
