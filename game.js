@@ -1232,6 +1232,11 @@ loadSprite((img) => { SPRITES.bg = img; }, 'bg');
         x1: r.right - sr.left + 70, y1: r.bottom - sr.top + 70,
       });
     });
+    const bar = sec.querySelector('.spotify-ticker');
+    if (bar && typeof bar.getBoundingClientRect === 'function') {
+      const br = bar.getBoundingClientRect();
+      winRects.push({ x0: -9999, y0: br.top - sr.top - 70, x1: 9999, y1: br.bottom - sr.top + 70 });
+    }
   }
 
   function freeSpot() {

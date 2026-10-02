@@ -662,10 +662,13 @@ main {
   .shows-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* barra ticker de Spotify: separador estatico sobre la bio (hero 2) */
+/* barra ticker de Spotify: franja superior estatica de la bio (hero 2) */
 .spotify-ticker {
+  position: absolute;
+  top: 0; left: 0; right: 0;
   display: block;
   text-decoration: none;
+  border-top: 0;
 }
 .spotify-ticker:hover { color: var(--pink); }
 .spotify-ticker .ticker-track { animation-duration: 12s; }
