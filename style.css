@@ -196,22 +196,28 @@ main {
   touch-action: none;
 }
 
-.sound {
+/* pantalla completa del juego */
+.fs-btn {
   position: absolute;
-  top: -6px;
-  right: -6px;
+  top: -8px; right: -8px;
   z-index: 3;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: var(--paper);
+  width: 34px; height: 34px;
+  background: var(--lime);
   border: 3px solid var(--ink);
-  font-size: 15px;
-  cursor: pointer;
   box-shadow: 3px 3px 0 var(--ink);
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--ink);
 }
-
-.sound:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--ink); }
+.fs-btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--ink); }
+.screen:fullscreen { background: #000; border-color: transparent; display: flex; align-items: center; justify-content: center; }
+.screen:fullscreen #game { width: 100%; height: 100%; object-fit: contain; }
+.screen:fullscreen .fs-btn { top: 12px; right: 12px; }
+/* fallback para iOS / navegadores sin Fullscreen API */
+.screen.fs-fallback { position: fixed; inset: 0; z-index: 9999; background: #000; display: flex; align-items: center; justify-content: center; border-color: transparent; }
+.screen.fs-fallback #game { width: 100%; height: 100%; object-fit: contain; }
+.screen.fs-fallback .fs-btn { top: 12px; right: 12px; }
 
 /* ---------- overlays ---------- */
 .overlay {
@@ -424,7 +430,6 @@ main {
 .os-body { padding: 30px 30px 36px; }
 
 /* ventana de spotify */
-.tbar-green { background: #1DB954; }
 .tbar-yellow { background: #FFD400; color: var(--ink); }
 
 .spotify-window {
@@ -655,6 +660,3 @@ main {
   .sticker-wrap { display: none; }
   .os-body { padding: 20px 16px 26px; }
 }
-
-/* audio desactivado por ahora: se esconde el boton de sonido del juego */
-.sound { display: none; }

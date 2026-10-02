@@ -99,107 +99,6 @@ function cloud(g, x, y, s) {
   g.fill();
 }
 
-/* ================= audio (WebAudio, sin archivos) ================= */
-
-const FX = (() => {
-  let ctx = null;
-  let master = null;
-  let eng = null;
-  let muted = false;
-  try { muted = localStorage.getItem('caddy-run-muted') === '1'; } catch (_) {}
-
-  const AUDIO_OFF = true; // audio desactivado por ahora: para volver, poner false
-  function ensure() {
-    if (AUDIO_OFF) return null;
-    if (!ctx) {
-      const AC = window.AudioContext || window.webkitAudioContext;
-      if (!AC) return null;
-      ctx = new AC();
-      master = ctx.createGain();
-      master.gain.value = muted ? 0 : 1;
-      master.connect(ctx.destination);
-    }
-    if (ctx.state === 'suspended') ctx.resume().catch(() => {});
-    return ctx;
-  }
-
-  function tone(type, f0, f1, dur, vol, delay = 0) {
-    const c = ensure();
-    if (!c) return;
-    const o = c.createOscillator();
-    const gn = c.createGain();
-    o.type = type;
-    const t0 = c.currentTime + delay;
-    o.frequency.setValueAtTime(f0, t0);
-    o.frequency.exponentialRampToValueAtTime(Math.max(f1, 1), t0 + dur);
-    gn.gain.setValueAtTime(vol, t0);
-    gn.gain.exponentialRampToValueAtTime(0.001, t0 + dur);
-    o.connect(gn);
-    gn.connect(master);
-    o.start(t0);
-    o.stop(t0 + dur + 0.02);
-  }
-
-  return {
-    get muted() { return muted; },
-    unlock() { ensure(); },
-    toggle() {
-      muted = !muted;
-      try { localStorage.setItem('caddy-run-muted', muted ? '1' : '0'); } catch (_) {}
-      if (master && ctx) master.gain.setTargetAtTime(muted ? 0 : 1, ctx.currentTime, 0.01);
-      return muted;
-    },
-    engineStart() {
-      const c = ensure();
-      if (!c || eng) return;
-      const o1 = c.createOscillator();
-      const o2 = c.createOscillator();
-      const gn = c.createGain();
-      const f = c.createBiquadFilter();
-      o1.type = 'sawtooth';
-      o2.type = 'sawtooth';
-      o1.frequency.value = 90;
-      o2.frequency.value = 135;
-      o2.detune.value = 9;
-      f.type = 'lowpass';
-      f.frequency.value = 340;
-      gn.gain.setTargetAtTime(0.05, c.currentTime, 0.15);
-      o1.connect(f);
-      o2.connect(f);
-      f.connect(gn);
-      gn.connect(master);
-      o1.start();
-      o2.start();
-      eng = { c, o1, o2, gn };
-    },
-    engineSet(speed) {
-      if (!eng) return;
-      const b = 52 + speed * 6.5;
-      const t = eng.c.currentTime;
-      eng.o1.frequency.setTargetAtTime(b, t, 0.08);
-      eng.o2.frequency.setTargetAtTime(b * 1.5, t, 0.08);
-    },
-    engineStop() {
-      if (!eng) return;
-      const { c, o1, o2, gn } = eng;
-      gn.gain.setTargetAtTime(0, c.currentTime, 0.08);
-      o1.stop(c.currentTime + 0.5);
-      o2.stop(c.currentTime + 0.5);
-      eng = null;
-    },
-    jump() { tone('square', 240, 640, 0.13, 0.16); },
-    coin() {
-      tone('square', 620, 620, 0.07, 0.14);
-      tone('square', 930, 930, 0.09, 0.14, 0.07);
-    },
-    death() {
-      tone('sawtooth', 180, 30, 0.45, 0.22);
-      tone('square', 90, 25, 0.35, 0.18, 0.05);
-    },
-    level() { [440, 554, 659, 880, 1108].forEach((f, i) => tone('square', f, f, 0.12, 0.18, 0.08 * i)); },
-  };
-})();
-
 /* ================= motor del juego ================= */
 
 function createGame(canvas, hooks) {
@@ -254,25 +153,20 @@ function createGame(canvas, hooks) {
     S.next = 320;
     S.overT = 0;
     S.p = { y: ROAD_Y, vy: 0, onGround: true };
-    FX.engineStart();
-    FX.engineSet(S.speed);
     emit();
   }
 
   function toSelect() {
     S.mode = 'idle';
     S.overT = 0;
-    FX.engineStop();
     emit();
   }
 
   function jump() {
-    FX.unlock();
     if (S.mode !== 'play') return;
     if (S.p.onGround) {
       S.p.vy = -11.8;
       S.p.onGround = false;
-      hooks.onSfx('jump');
     }
   }
 
@@ -331,13 +225,11 @@ function createGame(canvas, hooks) {
 
     S.speed = 6 + 11 * Math.log2(1 + S.score / 5005);
     S.score += 0.018 * S.speed * dt;
-    FX.engineSet(S.speed);
 
     const level = Math.floor(S.score / 5000) + 1;
     const prevLevel = Math.floor((S.score - 0.018 * S.speed * dt) / 5000) + 1;
     if (level > prevLevel) {
       S.pops.push({ x: 400, y: 60, txt: 'LEVEL ' + level, t: 0, big: true });
-      hooks.onSfx('level');
     }
 
     S.next -= S.speed * dt;
@@ -358,7 +250,6 @@ function createGame(canvas, hooks) {
         it.got = true;
         S.score += it.val;
         S.pops.push({ x: it.cx, y: it.y - 14, txt: '+' + it.val, t: 0, big: false });
-        hooks.onSfx('coin');
       }
     }
     S.items = S.items.filter((it) => !it.got);
@@ -369,13 +260,11 @@ function createGame(canvas, hooks) {
         : { x: o.x + 6, y: o.y + 4, w: o.w - 12 + sweep, h: o.h - 4 };
       if (hit(player, box)) {
         S.mode = 'over';
-        FX.engineStop();
         const final = Math.floor(S.score);
         if (final > S.hi) {
           S.hi = final;
           try { localStorage.setItem('caddy-run-hi', String(S.hi)); } catch (_) {}
         }
-        hooks.onSfx('death');
         emit();
         return;
       }
@@ -989,13 +878,19 @@ function createGame(canvas, hooks) {
     g.globalAlpha = 1;
   }
 
+  let visible = true; // se apaga cuando el juego sale de pantalla (ahorro mobile)
+  let loopOn = false;
   function loop(now) {
+    loopOn = false;
     const dt = Math.min(2.2, (now - (loop.last || now)) / 16.667) || 1;
     loop.last = now;
     S.frame++;
     update(dt);
     draw();
-    requestAnimationFrame(loop);
+    if (visible) { loopOn = true; requestAnimationFrame(loop); }
+  }
+  function kickLoop() {
+    if (!loopOn) { loopOn = true; requestAnimationFrame(loop); }
   }
 
   const onKey = (e) => {
@@ -1003,10 +898,9 @@ function createGame(canvas, hooks) {
       e.preventDefault();
       if (!e.repeat) jump();
     }
-    if (e.code === 'KeyM') toggleSound();
   };
   const onPointer = (e) => {
-    if (e.target.closest('#sound')) return;
+    if (e.target.closest('#fsBtn')) return;
     e.preventDefault();
     jump();
   };
@@ -1014,8 +908,18 @@ function createGame(canvas, hooks) {
   window.addEventListener('keydown', onKey);
   canvas.addEventListener('pointerdown', onPointer);
 
+  if ('IntersectionObserver' in window && typeof canvas.getBoundingClientRect === 'function') {
+    const target = (typeof canvas.closest === 'function' && canvas.closest('.cabinet')) || canvas;
+    new IntersectionObserver((entries) => {
+      const vis = !entries[0] || entries[0].isIntersecting;
+      if (vis === visible) return;
+      visible = vis;
+      if (vis) kickLoop();
+    }, { threshold: 0.05 }).observe(target);
+  }
+
   emit();
-  requestAnimationFrame(loop);
+  kickLoop();
 
   return {
     start,
@@ -1032,7 +936,6 @@ function createGame(canvas, hooks) {
 const overlaySelect = $('#overlaySelect');
 const overlayOver = $('#overlayOver');
 const finalScore = $('#finalScore');
-const soundBtn = $('#sound');
 const replayBtn = $('#replay');
 const changeBtn = $('#changeChar');
 
@@ -1051,13 +954,9 @@ const game = createGame($('#game'), {
       lastMode = st.mode;
     }
   },
-  onSfx(name) {
-    if (FX[name]) FX[name]();
-  },
 });
 
 function pickChar(i) {
-  FX.unlock();
   document.querySelectorAll('.char').forEach((el) => el.classList.remove('kb-focus'));
   game.start(i);
 }
@@ -1082,56 +981,23 @@ window.addEventListener('keydown', (e) => {
   if (e.code === 'Enter') pickChar(focusIdx);
 });
 
-function toggleSound() {
-  const muted = FX.toggle();
-  music.applyMute(muted);
-  soundBtn.textContent = muted ? '🔇' : '🔊';
-}
-
-/* ================= musica de fondo (8 bits, en loop) =================
-   Poner el archivo como musica.mp3 / musica.wav / musica.ogg en la
-   carpeta del proyecto. Si no existe, el juego funciona en silencio. */
-
-const music = (() => {
-  const files = []; // audio desactivado por ahora: no se descarga ni suena nada
-  let a = null;
-  let idx = 0;
-  let playing = false;
-
-  function tryLoad() {
-    if (idx >= files.length) { a = null; return; }
-    const el = new Audio();
-    el.addEventListener('error', () => { idx++; tryLoad(); });
-    el.src = files[idx];
-    el.loop = true;
-    el.volume = 0.4;
-    el.preload = 'auto';
-    a = el;
+const fsBtn = $('#fsBtn');
+fsBtn.addEventListener('click', () => {
+  const scr = $('.screen');
+  if (!scr) return;
+  if (typeof scr.requestFullscreen === 'function') {
+    if (document.fullscreenElement && typeof document.exitFullscreen === 'function') document.exitFullscreen().catch(() => {});
+    else scr.requestFullscreen().catch(() => {});
+  } else if (scr.classList) {
+    scr.classList.toggle('fs-fallback'); // iOS y navegadores sin Fullscreen API
   }
-  tryLoad();
-
-  return {
-    start() {
-      if (!a || playing) return;
-      a.muted = FX.muted;
-      a.play().then(() => { playing = true; }).catch(() => {});
-    },
-    applyMute(m) { if (a) a.muted = m; },
-  };
-})();
-
-// el navegador exige un gesto del usuario para arrancar el audio
-window.addEventListener('pointerdown', () => music.start());
-window.addEventListener('keydown', () => music.start());
-
-soundBtn.addEventListener('click', () => { toggleSound(); soundBtn.blur(); });
-soundBtn.addEventListener('pointerdown', (e) => e.stopPropagation());
+  fsBtn.blur();
+});
+fsBtn.addEventListener('pointerdown', (e) => e.stopPropagation());
 replayBtn.addEventListener('click', () => { game.start(); replayBtn.blur(); });
 replayBtn.addEventListener('pointerdown', (e) => e.stopPropagation());
 changeBtn.addEventListener('click', () => { game.toSelect(); changeBtn.blur(); });
 changeBtn.addEventListener('pointerdown', (e) => e.stopPropagation());
-
-if (FX.muted) soundBtn.textContent = '🔇';
 
 const params = new URLSearchParams(location.search);
 if (params.has('autostart')) {
