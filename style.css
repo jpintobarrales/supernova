@@ -199,7 +199,7 @@ main {
 /* pantalla completa del juego */
 .fs-btn {
   position: absolute;
-  top: -8px; right: -8px;
+  top: 6px; right: 6px;
   z-index: 3;
   width: 34px; height: 34px;
   background: var(--lime);

@@ -862,8 +862,8 @@ function createGame(canvas, hooks) {
     g.strokeStyle = COLORS.ink;
     g.lineWidth = 3;
     g.lineJoin = 'round';
-    g.strokeText(scoreTxt, 784, 14);
-    g.fillText(scoreTxt, 784, 14);
+    g.strokeText(scoreTxt, 736, 14);
+    g.fillText(scoreTxt, 736, 14);
 
     g.textAlign = 'center';
     S.pops.forEach((pp) => {
