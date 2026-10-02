@@ -623,15 +623,8 @@ main {
   animation: floaty 3.2s ease-in-out infinite alternate;
   filter: drop-shadow(4px 4px 0 rgba(20, 20, 20, .3));
 }
-.sw-1 { top: 3%; left: 3%; }
-.sw-2 { top: 4%; right: 4%; }
-.sw-3 { bottom: 10%; left: 7%; }
-.sw-4 { bottom: 14%; right: 5%; }
 .sw-5 { top: 10%; left: 5%; }
 .sw-6 { top: 16%; right: 6%; }
-.sw-2 .sticker { width: 88px; animation-delay: .5s; }
-.sw-3 .sticker { width: 64px; animation-delay: 1s; }
-.sw-4 .sticker { width: 58px; animation-delay: 1.5s; }
 .sw-5 .sticker { width: 80px; animation-delay: .3s; }
 .sw-6 .sticker { width: 68px; animation-delay: .9s; }
 @keyframes floaty {

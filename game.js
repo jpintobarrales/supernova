@@ -1140,10 +1140,10 @@ loadSprite((img) => { SPRITES.bg = img; }, 'bg');
   const sec = cv.parentElement;
   if (!g || !sec) return;
   const DEFS = [
-    { kind: 'cassette', src: ['sprites/fx_cassette.png', 'stickers/cassette.png'], size: [50, 70] },
-    { kind: 'cd',       src: ['sprites/fx_cd.png'],                          size: [40, 56] },
-    { kind: 'rayo',     src: ['sprites/fx_rayo.png'],                        size: [36, 52] },
-    { kind: 'estrella', src: ['sprites/fx_estrella.png', 'stickers/sparkle.png'], size: [22, 36] },
+    { kind: 'cassette', src: ['sprites/fx_cassette.png'], size: [50, 70] },
+    { kind: 'cd',       src: ['sprites/fx_cd.png'],       size: [40, 56] },
+    { kind: 'rayo',     src: ['sprites/fx_rayo.png'],     size: [36, 52] },
+    { kind: 'estrella', src: ['sprites/fx_estrella.png'], size: [22, 36] },
   ];
   const IMGS = {};
   if (typeof Image === 'function') {
