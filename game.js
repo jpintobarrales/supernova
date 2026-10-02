@@ -1415,3 +1415,20 @@ loadSprite((img) => { SPRITES.bg = img; }, 'bg');
   }, { passive: true });
   parallax();
 })();
+
+/* ============ Barra ticker de Spotify: visible solo en la bio (hero 2) ============ */
+(function () {
+  const bar = document.querySelector('.spotify-ticker');
+  const bio = document.querySelector('#bio');
+  if (!bar || !bio) return;
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        bar.classList.toggle('on', en.isIntersecting);
+      });
+    }, { threshold: 0.2 });
+    io.observe(bio);
+  } else {
+    bar.classList.add('on');
+  }
+})();
