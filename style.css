@@ -660,3 +660,26 @@ main {
   .sticker-wrap { display: none; }
   .os-body { padding: 20px 16px 26px; }
 }
+
+/* proximas fechas (cuadrito del home) */
+.tbar-cyan { background: var(--cyan); color: var(--ink); }
+.shows-window { width: min(920px, 96vw); margin-top: 20px; }
+.shows-body { padding: 14px 16px 16px; }
+.shows-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.show {
+  border: 2px solid var(--ink);
+  box-shadow: 3px 3px 0 var(--ink);
+  padding: 9px 6px 10px;
+  text-align: center;
+  background: #fff;
+}
+.show:nth-child(1) { background: var(--lime); }
+.show:nth-child(2) { background: #fff; }
+.show:nth-child(3) { background: var(--pink); }
+.show:nth-child(4) { background: var(--cyan); }
+.show b { display: block; font-size: 12px; letter-spacing: .5px; }
+.show span { display: block; font-size: 11px; margin-top: 4px; }
+.show em { display: block; font-style: normal; font-size: 9px; letter-spacing: 1.5px; opacity: .7; margin-top: 3px; }
+@media (max-width: 700px) {
+  .shows-grid { grid-template-columns: repeat(2, 1fr); }
+}
