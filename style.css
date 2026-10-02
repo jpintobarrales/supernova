@@ -544,14 +544,14 @@ main {
 /* merch */
 .merch-heading {
   text-align: center;
-  color: #fff;
+  color: var(--ink);
   font-size: clamp(26px, 4.5vw, 44px);
   margin: 0 0 6px;
-  text-shadow: 4px 4px 0 rgba(20, 20, 20, .45);
+  text-shadow: 4px 4px 0 rgba(255, 255, 255, .55);
 }
 .merch-sub {
   text-align: center;
-  color: rgba(255, 255, 255, .9);
+  color: rgba(20, 20, 20, .78);
   font-size: 12px;
   letter-spacing: 2px;
   margin: 0 0 40px;
@@ -655,9 +655,9 @@ main {
 .spotify-ticker:hover { color: var(--pink); }
 .spotify-ticker .ticker-track { animation-duration: 12s; }
 
-/* fondo de merch: skyline de Santiago de noche (sprite del usuario) */
+/* fondo de merch: las Conis pixeladas sobre amarillo #FFD400 (sprite del usuario) */
 .merch-section {
-  background: url('sprites/fondo_merch.jpg') center / cover no-repeat #160b26;
+  background: url('sprites/fondo_merch.jpg') center bottom / cover no-repeat #FFD400;
 }
 .merch-fx { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
 .merch-heading, .merch-sub, .merch-grid { position: relative; z-index: 2; }

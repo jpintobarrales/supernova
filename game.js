@@ -1407,7 +1407,7 @@ loadSprite((img) => { SPRITES.bg = img; }, 'bg');
   const sec = cv.parentElement;
   if (!g || !sec) return;
   const TAU = Math.PI * 2;
-  const COLORS = ['#FFFFFF', '#FFD7F5', '#BDEFFF', '#FFF3A3'];
+  const COLORS = ['#FF4DCC', '#4DE3FF', '#A45CFF', '#FFFFFF'];
   const reduced = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
   let W = 0, H = 0, stars = [], running = false, raf = 0;
 
