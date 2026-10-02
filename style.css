@@ -1,6 +1,6 @@
 :root {
   --purple: #A45CFF;
-  --lime: #D4FF00;
+  --lime: #FFD400;
   --pink: #FF4DCC;
   --cyan: #4DE3FF;
   --green: #2FE85A;
@@ -60,25 +60,11 @@ body {
 
 .nav a:hover { background: var(--ink); color: var(--lime); }
 
-.btn-enter {
-  background: var(--pink);
-  color: var(--ink);
-  text-decoration: none;
-  border: 3px solid var(--ink);
-  border-radius: 999px;
-  padding: 6px 18px;
-  font-size: 12px;
-  box-shadow: 3px 3px 0 var(--ink);
-}
-
-.btn-enter:active { transform: translate(3px, 3px); box-shadow: none; }
-
 @media (max-width: 560px) {
   .topbar { gap: 8px; padding: 8px 12px; }
   .logo img { height: 20px; }
   .nav { gap: 6px; }
   .nav a { font-size: 9px; padding: 2px 3px; }
-  .btn-enter { padding: 4px 10px; font-size: 10px; border-width: 2px; }
   .hero { gap: 14px; padding: 16px 10px 56px; }
   .hero-logo { width: min(560px, 90vw); max-width: 100%; }
   .chars { gap: 12px; }
@@ -487,22 +473,21 @@ main {
 }
 .bio-stats {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
   margin-top: 22px;
 }
 .bio-stats .stat {
   border: 2px solid var(--ink);
-  padding: 10px 6px;
+  padding: 16px 8px;
   text-align: center;
   box-shadow: 4px 4px 0 var(--ink);
 }
 .bio-stats .stat:nth-child(1) { background: var(--lime); }
 .bio-stats .stat:nth-child(2) { background: var(--cyan); }
 .bio-stats .stat:nth-child(3) { background: var(--pink); }
-.bio-stats .stat:nth-child(4) { background: var(--paper); }
-.bio-stats .stat b { display: block; font-size: 22px; }
-.bio-stats .stat span { font-size: 9px; letter-spacing: 1px; }
+.bio-stats .stat b { display: block; font-size: 28px; }
+.bio-stats .stat span { font-size: 10px; letter-spacing: 1px; }
 
 .bio-pilots {
   display: grid;

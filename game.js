@@ -11,7 +11,7 @@ const COLORS = {
   ink: '#141414',
   pink: '#FF4DCC',
   white: '#F6F5EF',
-  lime: '#D4FF00',
+  lime: '#FFD400',
   cyan: '#4DE3FF',
   green: '#2FE85A',
   orange: '#FF7A45',
