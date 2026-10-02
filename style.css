@@ -532,7 +532,7 @@ main {
 }
 .ticker-track {
   display: inline-flex;
-  animation: tick 22s linear infinite;
+  animation: tick 15s linear infinite;
   font-size: 14px;
   letter-spacing: 2px;
 }
@@ -668,4 +668,4 @@ main {
   text-decoration: none;
 }
 .spotify-ticker:hover { color: var(--pink); }
-.spotify-ticker .ticker-track { animation-duration: 18s; }
+.spotify-ticker .ticker-track { animation-duration: 12s; }
