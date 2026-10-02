@@ -1239,6 +1239,17 @@ loadSprite((img) => { SPRITES.bg = img; }, 'bg');
     }
   }
 
+  /* el anchor #bio debe aterrizar debajo del menu sticky */
+  syncBioMargin();
+  if (typeof window.addEventListener === 'function') {
+    window.addEventListener('resize', syncBioMargin, { passive: true });
+  }
+  function syncBioMargin() {
+    const topbar = document.querySelector('.topbar');
+    if (!topbar || typeof topbar.offsetHeight !== 'number') return;
+    sec.style.scrollMarginTop = topbar.offsetHeight + 'px';
+  }
+
   function freeSpot() {
     for (let i = 0; i < 20; i++) {
       const x = rnd(0.04, 0.96), y = rnd(0.05, 0.95);
