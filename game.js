@@ -1399,7 +1399,7 @@ loadSprite((img) => { SPRITES.bg = img; }, 'bg');
   }
 })();
 
-/* ============ LANDING: reveal on scroll + parallax de stickers ============ */
+/* ============ LANDING: reveal on scroll ============ */
 (function () {
   const reveals = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window) {
@@ -1415,19 +1415,4 @@ loadSprite((img) => { SPRITES.bg = img; }, 'bg');
   } else {
     reveals.forEach((el) => el.classList.add('in-view'));
   }
-
-  const wraps = Array.from(document.querySelectorAll('.sticker-wrap[data-speed]'));
-  if (!wraps.length) return;
-  let ticking = false;
-  function parallax() {
-    wraps.forEach((w) => {
-      const top = w.parentElement.getBoundingClientRect().top;
-      w.style.transform = 'translate3d(0,' + (top * parseFloat(w.dataset.speed || 0) * -0.3) + 'px,0)';
-    });
-    ticking = false;
-  }
-  window.addEventListener('scroll', () => {
-    if (!ticking) { ticking = true; requestAnimationFrame(parallax); }
-  }, { passive: true });
-  parallax();
 })();

@@ -368,7 +368,7 @@ main {
   padding: 70px 20px 84px;
 }
 
-/* FX flotantes de la bio (detras de las ventanas y los stickers) */
+/* FX flotantes de la bio (detras de las ventanas) */
 .bio-fx { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
 
 .bio-wrap {
@@ -615,27 +615,9 @@ main {
 }
 .reveal.in-view.merch-card:hover { transform: rotate(0deg) translateY(-6px); }
 
-/* stickers flotantes con parallax */
-.sticker-wrap { position: absolute; z-index: 2; pointer-events: none; }
-.sticker {
-  display: block;
-  width: 72px;
-  animation: floaty 3.2s ease-in-out infinite alternate;
-  filter: drop-shadow(4px 4px 0 rgba(20, 20, 20, .3));
-}
-.sw-5 { top: 10%; left: 5%; }
-.sw-6 { top: 16%; right: 6%; }
-.sw-5 .sticker { width: 80px; animation-delay: .3s; }
-.sw-6 .sticker { width: 68px; animation-delay: .9s; }
-@keyframes floaty {
-  from { transform: translateY(0) rotate(-4deg); }
-  to   { transform: translateY(-14px) rotate(5deg); }
-}
-
 @media (max-width: 860px) {
   .bio-grid { grid-template-columns: 1fr; }
   .bio-wrap { grid-template-columns: 1fr; }
-  .sticker-wrap { display: none; }
   .os-body { padding: 20px 16px 26px; }
 }
 
