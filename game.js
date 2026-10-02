@@ -1399,6 +1399,101 @@ loadSprite((img) => { SPRITES.bg = img; }, 'bg');
   }
 })();
 
+/* ============ FX del merch: estrellitas parpadeantes sobre el skyline ============ */
+(function startMerchFX() {
+  const cv = document.querySelector('.merch-fx');
+  if (!cv || typeof cv.getContext !== 'function') return;
+  const g = cv.getContext('2d');
+  const sec = cv.parentElement;
+  if (!g || !sec) return;
+  const TAU = Math.PI * 2;
+  const COLORS = ['#FFFFFF', '#FFD7F5', '#BDEFFF', '#FFF3A3'];
+  const reduced = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let W = 0, H = 0, stars = [], running = false, raf = 0;
+
+  const rnd = (a, b) => a + Math.random() * (b - a);
+
+  function seed() {
+    const n = Math.max(36, Math.min(110, Math.round((W * H) / 22000)));
+    stars = [];
+    for (let i = 0; i < n; i++) {
+      stars.push({
+        x: rnd(0, W),
+        y: rnd(0, H * 0.92),
+        r: rnd(1.4, 3.6),
+        ph: rnd(0, TAU),
+        sp: rnd(0.6, 2.2),
+        c: COLORS[(Math.random() * COLORS.length) | 0],
+        rays: Math.random() < 0.22,
+      });
+    }
+  }
+
+  function resize() {
+    const w = sec.clientWidth, h = sec.clientHeight;
+    if (typeof w !== 'number' || typeof h !== 'number' || !w || !h) return false;
+    W = w; H = h;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    cv.width = W * dpr; cv.height = H * dpr;
+    g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    seed();
+    return true;
+  }
+
+  function drawStar(s, a) {
+    const r = s.r;
+    g.globalAlpha = a;
+    g.fillStyle = s.c;
+    g.beginPath();
+    g.moveTo(s.x, s.y - r);
+    g.lineTo(s.x + r * 0.5, s.y);
+    g.lineTo(s.x, s.y + r);
+    g.lineTo(s.x - r * 0.5, s.y);
+    g.closePath();
+    g.fill();
+    if (s.rays) {
+      g.globalAlpha = a * 0.6;
+      g.fillRect(s.x - r * 1.8, s.y - 0.5, r * 3.6, 1);
+      g.fillRect(s.x - 0.5, s.y - r * 1.8, 1, r * 3.6);
+    }
+  }
+
+  function frame(t) {
+    if (!running) return;
+    g.clearRect(0, 0, W, H);
+    const time = (t || 0) / 1000;
+    for (let i = 0; i < stars.length; i++) {
+      const s = stars[i];
+      const tw = 0.5 + 0.5 * Math.sin(time * s.sp + s.ph);
+      drawStar(s, 0.15 + 0.85 * tw * tw);
+    }
+    g.globalAlpha = 1;
+    raf = requestAnimationFrame(frame);
+  }
+
+  function drawStatic() {
+    g.clearRect(0, 0, W, H);
+    for (let i = 0; i < stars.length; i++) drawStar(stars[i], 0.9);
+    g.globalAlpha = 1;
+  }
+
+  function start() { if (running) return; running = true; raf = requestAnimationFrame(frame); }
+  function stop() { running = false; if (typeof cancelAnimationFrame === 'function') cancelAnimationFrame(raf); }
+
+  if (!resize()) return;
+  if (typeof window.addEventListener === 'function') {
+    window.addEventListener('resize', () => { if (resize() && reduced) drawStatic(); });
+  }
+  if (reduced) { drawStatic(); return; }
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver((entries) => {
+      entries.forEach((en) => (en.isIntersecting ? start() : stop()));
+    }, { threshold: 0.02 }).observe(sec);
+  } else {
+    start();
+  }
+})();
+
 /* ============ LANDING: reveal on scroll ============ */
 (function () {
   const reveals = document.querySelectorAll('.reveal');

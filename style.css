@@ -654,3 +654,10 @@ main {
 }
 .spotify-ticker:hover { color: var(--pink); }
 .spotify-ticker .ticker-track { animation-duration: 12s; }
+
+/* fondo de merch: skyline de Santiago de noche (sprite del usuario) */
+.merch-section {
+  background: url('sprites/fondo_merch.jpg') center / cover no-repeat #160b26;
+}
+.merch-fx { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+.merch-heading, .merch-sub, .merch-grid { position: relative; z-index: 2; }
