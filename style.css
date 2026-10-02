@@ -662,22 +662,10 @@ main {
   .shows-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* barra ticker de Spotify: aparece solo en la bio (hero 2) */
+/* barra ticker de Spotify: separador estatico sobre la bio (hero 2) */
 .spotify-ticker {
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
-  z-index: 9;
   display: block;
-  background: var(--ink);
-  color: var(--lime);
-  border-top: 3px solid var(--ink);
-  overflow: hidden;
-  padding: 10px 0;
-  white-space: nowrap;
   text-decoration: none;
-  transform: translateY(110%);
-  transition: transform .45s cubic-bezier(.2, .9, .25, 1.2);
 }
-.spotify-ticker.on { transform: translateY(0); }
 .spotify-ticker:hover { color: var(--pink); }
 .spotify-ticker .ticker-track { animation-duration: 18s; }
