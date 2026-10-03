@@ -30,7 +30,7 @@ const CHARS = [
 const CHAR_IMGS = [null, null];
 
 function loadCharImage(i) {
-  const exts = ['png', 'jpg', 'jpeg', 'webp'];
+  const exts = ['webp', 'png', 'jpg', 'jpeg'];
   const tryExt = (n) => {
     if (n >= exts.length) return;
     const img = new Image();
@@ -51,7 +51,7 @@ function loadCharImage(i) {
 const SPRITES = { car: [null, null], tire: null, coin: null, can: null, bg: null };
 
 function loadSprite(set, base) {
-  const exts = ['png', 'jpg', 'jpeg', 'webp'];
+  const exts = ['webp', 'png', 'jpg', 'jpeg'];
   const tryExt = (n) => {
     if (n >= exts.length) return;
     const img = new Image();
@@ -1158,10 +1158,10 @@ loadSprite((img) => { SPRITES.bg = img; }, 'bg');
   const sec = cv.parentElement;
   if (!g || !sec) return;
   const DEFS = [
-    { kind: 'cassette', src: ['sprites/fx_cassette.png'], size: [50, 70] },
-    { kind: 'cd',       src: ['sprites/fx_cd.png'],       size: [40, 56] },
-    { kind: 'rayo',     src: ['sprites/fx_rayo.png'],     size: [36, 52] },
-    { kind: 'estrella', src: ['sprites/fx_estrella.png'], size: [22, 36] },
+    { kind: 'cassette', src: ['sprites/fx_cassette.webp', 'sprites/fx_cassette.png'], size: [50, 70] },
+    { kind: 'cd',       src: ['sprites/fx_cd.webp', 'sprites/fx_cd.png'],       size: [40, 56] },
+    { kind: 'rayo',     src: ['sprites/fx_rayo.webp', 'sprites/fx_rayo.png'],     size: [36, 52] },
+    { kind: 'estrella', src: ['sprites/fx_estrella.webp', 'sprites/fx_estrella.png'], size: [22, 36] },
   ];
   const IMGS = {};
   if (typeof Image === 'function') {
@@ -1442,6 +1442,23 @@ loadSprite((img) => { SPRITES.bg = img; }, 'bg');
 
   const rnd = (a, b) => a + Math.random() * (b - a);
 
+  // un sprite de halo (degradado radial) por color, creado una sola vez
+  const HALOS = {};
+  function haloFor(color) {
+    if (HALOS[color]) return HALOS[color];
+    const c = document.createElement('canvas');
+    c.width = c.height = 48;
+    const h = c.getContext('2d');
+    const grad = h.createRadialGradient(24, 24, 0, 24, 24, 24);
+    const glow = GLOW[color] || color;
+    grad.addColorStop(0, glow + 'AA');
+    grad.addColorStop(0.35, glow + '55');
+    grad.addColorStop(1, glow + '00');
+    h.fillStyle = grad;
+    h.fillRect(0, 0, 48, 48);
+    return (HALOS[color] = c);
+  }
+
   function seed() {
     const n = Math.max(70, Math.min(170, Math.round((W * H) / 11000)));
     stars = [];
@@ -1472,9 +1489,10 @@ loadSprite((img) => { SPRITES.bg = img; }, 'bg');
   function drawStar(s, a) {
     const r = s.r;
     g.globalAlpha = a;
+    // halo precalculado (sprite) en vez de shadowBlur: shadowBlur por estrella y por frame es carisimo
+    const hr = r * 4.2;
+    g.drawImage(haloFor(s.c), s.x - hr, s.y - hr, hr * 2, hr * 2);
     g.fillStyle = s.c;
-    g.shadowColor = GLOW[s.c] || s.c;   // brillo suave alrededor de la estrella
-    g.shadowBlur = r * 3.2;
     g.beginPath();
     g.moveTo(s.x, s.y - r);
     g.lineTo(s.x + r * 0.5, s.y);
@@ -1487,7 +1505,6 @@ loadSprite((img) => { SPRITES.bg = img; }, 'bg');
       g.fillRect(s.x - r * 2.4, s.y - 0.5, r * 4.8, 1);
       g.fillRect(s.x - 0.5, s.y - r * 2.4, 1, r * 4.8);
     }
-    g.shadowBlur = 0;
   }
 
   function frame(t) {

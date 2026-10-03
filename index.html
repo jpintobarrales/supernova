@@ -4,16 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Supernova</title>
+<meta name="copyright" content="© 2026 SUPERNOVA · Diseño y desarrollo: base86. Todos los derechos reservados.">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="personajes/fondo_general.webp" fetchpriority="high">
+<link rel="preload" as="image" href="personajes/logo_supernova.webp">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header class="topbar">
-  <a class="logo" href="#"><img src="personajes/logo_supernova.png" alt="SUPERNOVA"></a>
+  <a class="logo" href="#"><img src="personajes/logo_supernova.webp" alt="SUPERNOVA" width="1800" height="265"></a>
   <nav class="nav">
     <a href="#">HOME</a>
     <a href="#bio">NOSOTRAS</a>
@@ -23,7 +26,7 @@
 
 <section class="hero">
   <canvas class="hero-fx" aria-hidden="true"></canvas>
-  <img class="hero-logo" src="personajes/logo_supernova.png" alt="SUPERNOVA">
+  <img class="hero-logo" src="personajes/logo_supernova.webp" alt="SUPERNOVA" width="1800" height="265" fetchpriority="high">
 
   <section class="cabinet" id="juego">
     <div class="screen">
@@ -130,11 +133,11 @@
           </div>
           <div class="bio-pilots">
             <figure>
-              <img src="personajes/1.png" alt="Coni Lewin">
+              <img src="personajes/1.webp" alt="Coni Lewin" width="640" height="640" loading="lazy" decoding="async">
               <figcaption>CONI LEWIN</figcaption>
             </figure>
             <figure>
-              <img src="personajes/2.png" alt="Coni Lüer">
+              <img src="personajes/2.webp" alt="Coni Lüer" width="640" height="640" loading="lazy" decoding="async">
               <figcaption>CONI LÜER</figcaption>
             </figure>
           </div>
@@ -175,7 +178,7 @@
 
   <div class="merch-grid">
     <article class="merch-card reveal" style="--rot:-2deg; --d:0s">
-      <div class="merch-imgwrap"><img src="merch/remera.png" alt="Remera Supernova"></div>
+      <div class="merch-imgwrap"><img src="merch/remera.webp" alt="Remera Supernova" width="240" height="240" loading="lazy" decoding="async"></div>
       <div class="merch-info">
         <h3>POLERA</h3>
         <p class="merch-price">$12.000</p>
@@ -183,7 +186,7 @@
       </div>
     </article>
     <article class="merch-card reveal" style="--rot:1.5deg; --d:.06s">
-      <div class="merch-imgwrap"><img src="merch/buzo.png" alt="Buzo Supernova"></div>
+      <div class="merch-imgwrap"><img src="merch/buzo.webp" alt="Buzo Supernova" width="240" height="240" loading="lazy" decoding="async"></div>
       <div class="merch-info">
         <h3>BUZO</h3>
         <p class="merch-price">$22.000</p>
@@ -191,7 +194,7 @@
       </div>
     </article>
     <article class="merch-card reveal" style="--rot:-1deg; --d:.12s">
-      <div class="merch-imgwrap"><img src="merch/gorra.png" alt="Gorro Supernova"></div>
+      <div class="merch-imgwrap"><img src="merch/gorra.webp" alt="Gorro Supernova" width="240" height="240" loading="lazy" decoding="async"></div>
       <div class="merch-info">
         <h3>GORRO</h3>
         <p class="merch-price">$9.000</p>
@@ -199,7 +202,7 @@
       </div>
     </article>
     <article class="merch-card reveal" style="--rot:2deg; --d:.18s">
-      <div class="merch-imgwrap"><img src="merch/tote.png" alt="Tote bag Supernova"></div>
+      <div class="merch-imgwrap"><img src="merch/tote.webp" alt="Tote bag Supernova" width="240" height="240" loading="lazy" decoding="async"></div>
       <div class="merch-info">
         <h3>TOTE</h3>
         <p class="merch-price">$8.500</p>
@@ -207,7 +210,7 @@
       </div>
     </article>
     <article class="merch-card reveal" style="--rot:-1.5deg; --d:.24s">
-      <div class="merch-imgwrap"><img src="merch/taza.png" alt="Taza Supernova"></div>
+      <div class="merch-imgwrap"><img src="merch/taza.webp" alt="Taza Supernova" width="240" height="240" loading="lazy" decoding="async"></div>
       <div class="merch-info">
         <h3>TAZA</h3>
         <p class="merch-price">$7.000</p>
@@ -215,7 +218,7 @@
       </div>
     </article>
     <article class="merch-card reveal" style="--rot:1deg; --d:.3s">
-      <div class="merch-imgwrap"><img src="merch/vinilo.png" alt="Vinilo Supernova"></div>
+      <div class="merch-imgwrap"><img src="merch/vinilo.webp" alt="Vinilo Supernova" width="240" height="240" loading="lazy" decoding="async"></div>
       <div class="merch-info">
         <h3>VINILO</h3>
         <p class="merch-price">$25.000</p>
@@ -223,7 +226,7 @@
       </div>
     </article>
     <article class="merch-card reveal" style="--rot:-2deg; --d:.36s">
-      <div class="merch-imgwrap"><img src="merch/magneticos.png" alt="Magnéticos Supernova"></div>
+      <div class="merch-imgwrap"><img src="merch/magneticos.webp" alt="Magnéticos Supernova" width="240" height="240" loading="lazy" decoding="async"></div>
       <div class="merch-info">
         <h3>MAGNÉTICOS</h3>
         <p class="merch-price">$3.500</p>
@@ -231,7 +234,7 @@
       </div>
     </article>
     <article class="merch-card reveal" style="--rot:1.5deg; --d:.42s">
-      <div class="merch-imgwrap"><img src="merch/llavero.png" alt="Llavero Supernova"></div>
+      <div class="merch-imgwrap"><img src="merch/llavero.webp" alt="Llavero Supernova" width="240" height="240" loading="lazy" decoding="async"></div>
       <div class="merch-info">
         <h3>LLAVERO</h3>
         <p class="merch-price">$4.500</p>
@@ -252,10 +255,10 @@
 </footer>
 
 <script src="game.js"></script>
-<script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }</script>
+
 <script src="ticker.js"></script>
 <script src="menu-fx.js"></script>
 <script src="footer.js"></script>
-<script type="module" src="transition.js"></script>
+<script defer src="transition.js"></script>
 </body>
 </html>

@@ -5,6 +5,10 @@ personajes/*
 !personajes/1.png
 !personajes/2.png
 !personajes/fondo_general.png
+!personajes/1.webp
+!personajes/2.webp
+!personajes/fondo_general.webp
+!personajes/logo_supernova.webp
 
 # audio desactivado (por ahora no se usa en el sitio)
 musica.wav

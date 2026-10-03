@@ -146,7 +146,7 @@ main {
   align-items: center;
   gap: 30px;
   overflow: hidden;
-  background: url('personajes/fondo_general.png') center / cover no-repeat #FFE9F4;
+  background: url('personajes/fondo_general.webp') center / cover no-repeat #FFE9F4;
   padding: 40px 16px 88px;
 }
 
@@ -626,6 +626,7 @@ html.fs-lock, html.fs-lock body { overflow: hidden; }
 .bio-pilots img {
   display: block;
   width: 100%;
+  height: auto;           /* el atributo height del <img> no debe estirar la foto */
   aspect-ratio: 1;
   object-fit: cover;
   image-rendering: pixelated;
@@ -708,6 +709,7 @@ html.fs-lock, html.fs-lock body { overflow: hidden; }
 .merch-imgwrap img {
   display: block;
   width: 100%;
+  height: auto;
   image-rendering: pixelated;
 }
 .merch-info { padding: 14px 14px 16px; }
@@ -809,7 +811,7 @@ html.fs-lock, html.fs-lock body { overflow: hidden; }
 /* fondo de merch: papel cuadriculado en degrade rosa (sprite del usuario) */
 .merch-section {
   padding-bottom: calc(var(--foot-h) + 74px); /* deja espacio al footer superpuesto */
-  background: url('sprites/fondo_merch.jpg') center bottom / cover no-repeat #FF4DCC;
+  background: url('sprites/fondo_merch.webp') center bottom / cover no-repeat #FF4DCC;
   min-height: calc(100svh - var(--topbar-h)); /* llena la pantalla como los otros heroes */
 }
 .merch-fx { position: absolute; inset: 0; z-index: 1; pointer-events: none; }

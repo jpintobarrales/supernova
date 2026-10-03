@@ -1,0 +1,15 @@
+{
+  "name": "supernova",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Landing de SUPERNOVA (supernova.base86.dev)",
+  "scripts": {
+    "build": "node build-dist.js",
+    "deploy": "node build-dist.js && wrangler deploy"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "html-minifier-terser": "^7.2.0",
+    "javascript-obfuscator": "^5.8.1"
+  }
+}
