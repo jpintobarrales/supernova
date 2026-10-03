@@ -15,8 +15,8 @@
 <header class="topbar">
   <a class="logo" href="#"><img src="personajes/logo_supernova.png" alt="SUPERNOVA"></a>
   <nav class="nav">
-    <a href="#juego">JUGAR</a>
-    <a href="#bio">BIO</a>
+    <a href="#">HOME</a>
+    <a href="#bio">NOSOTRAS</a>
     <a href="#merch">MERCH</a>
   </nav>
 </header>
@@ -70,12 +70,30 @@
       <span class="os-buttons"><i class="b1"></i><i class="b2"></i><i class="b3"></i></span>
     </div>
     <div class="os-body shows-body">
-      <div class="shows-grid">
-        <div class="show"><b>VIE 09 OCT</b><span>Teatro Caupolicán</span><em>SANTIAGO</em></div>
-        <div class="show"><b>SÁB 17 OCT</b><span>Enjoy</span><em>VIÑA DEL MAR</em></div>
-        <div class="show"><b>VIE 23 OCT</b><span>Teatro Biobío</span><em>CONCEPCIÓN</em></div>
-        <div class="show"><b>SÁB 07 NOV</b><span>Teatro Cautín</span><em>TEMUCO</em></div>
-      </div>
+      <p class="cta-note">★ ENTRADAS A LA VENTA ★</p>
+      <!-- TODO: reemplazar href="#" de cada boton por la URL de venta de tickets de esa fecha -->
+      <ul class="shows-list">
+        <li class="show-card">
+          <b>VIE 09 OCT</b>
+          <div class="show-info"><span>Teatro Caupolicán</span><em>SANTIAGO</em></div>
+          <a class="btn-tickets" href="#" onclick="return false" target="_blank" rel="noopener" aria-label="Comprar tickets VIE 09 OCT Santiago">COMPRAR <span aria-hidden="true">▶</span></a>
+        </li>
+        <li class="show-card">
+          <b>SÁB 17 OCT</b>
+          <div class="show-info"><span>Enjoy</span><em>VIÑA DEL MAR</em></div>
+          <a class="btn-tickets" href="#" onclick="return false" target="_blank" rel="noopener" aria-label="Comprar tickets SÁB 17 OCT Viña Del Mar">COMPRAR <span aria-hidden="true">▶</span></a>
+        </li>
+        <li class="show-card">
+          <b>VIE 23 OCT</b>
+          <div class="show-info"><span>Teatro Biobío</span><em>CONCEPCIÓN</em></div>
+          <a class="btn-tickets" href="#" onclick="return false" target="_blank" rel="noopener" aria-label="Comprar tickets VIE 23 OCT Concepción">COMPRAR <span aria-hidden="true">▶</span></a>
+        </li>
+        <li class="show-card">
+          <b>SÁB 07 NOV</b>
+          <div class="show-info"><span>Teatro Cautín</span><em>TEMUCO</em></div>
+          <a class="btn-tickets" href="#" onclick="return false" target="_blank" rel="noopener" aria-label="Comprar tickets SÁB 07 NOV Temuco">COMPRAR <span aria-hidden="true">▶</span></a>
+        </li>
+      </ul>
     </div>
   </div>
 
@@ -85,7 +103,7 @@
 <!-- ============ BIO ============ -->
 <section class="bio-section" id="bio">
   <!-- franja ticker de Spotify: siempre visible al llegar al hero 2 -->
-  <a class="ticker spotify-ticker" href="https://open.spotify.com/artist/4hp1i0d15TWg1YN3lCUWgq" target="_blank" rel="noopener" aria-label="Síguenos en Spotify">
+  <a class="ticker spotify-ticker" data-speed="35" href="https://open.spotify.com/artist/4hp1i0d15TWg1YN3lCUWgq" target="_blank" rel="noopener" aria-label="Síguenos en Spotify">
     <div class="ticker-track">
       <span>★ SÍGUENOS EN SPOTIFY ★ SUPERNOVA ★&nbsp;</span>
       <span>★ SÍGUENOS EN SPOTIFY ★ SUPERNOVA ★&nbsp;</span>
@@ -138,27 +156,28 @@
       </div>
     </div>
   </div>
-</section>
 
-<!-- ============ TICKER ============ -->
-<div class="ticker" aria-hidden="true">
-  <div class="ticker-track">
-    <span>★ SUPERNOVA ★ CONI LEWIN ★ CONI LÜER ★ CADDY RUN ★ 8 BITS ★ NUEVO MERCH ★&nbsp;</span>
-    <span>★ SUPERNOVA ★ CONI LEWIN ★ CONI LÜER ★ CADDY RUN ★ 8 BITS ★ NUEVO MERCH ★&nbsp;</span>
-  </div>
-</div>
+  <a class="scroll-hint" href="#merch" aria-label="Bajar al merch">▼</a>
+</section>
 
 <!-- ============ MERCH ============ -->
 <section class="merch-section" id="merch">
+  <!-- franja ticker: pegada arriba del hero 3 y sticky bajo el menu, igual que la de Spotify en la bio -->
+  <div class="ticker merch-ticker" data-speed="57" aria-hidden="true">
+    <div class="ticker-track">
+      <span>★ NUEVOS PRODUCTOS DISPONIBLES ★ ENVÍOS A TODO CHILE 🇨🇱 ★&nbsp;</span>
+      <span>★ NUEVOS PRODUCTOS DISPONIBLES ★ ENVÍOS A TODO CHILE 🇨🇱 ★&nbsp;</span>
+    </div>
+  </div>
   <canvas class="merch-fx" aria-hidden="true"></canvas>
-  <h2 class="merch-heading reveal">MERCH.EXE</h2>
+  <h2 class="merch-heading reveal">MERCH</h2>
   <p class="merch-sub reveal">TODOS NUESTROS PRODUCTOS DISPONIBLES EN MERCADOLIBRE</p>
 
   <div class="merch-grid">
     <article class="merch-card reveal" style="--rot:-2deg; --d:0s">
       <div class="merch-imgwrap"><img src="merch/remera.png" alt="Remera Supernova"></div>
       <div class="merch-info">
-        <h3>REMER.EXE</h3>
+        <h3>POLERA</h3>
         <p class="merch-price">$12.000</p>
         <button class="btn-buy">COMPRAR</button>
       </div>
@@ -166,7 +185,7 @@
     <article class="merch-card reveal" style="--rot:1.5deg; --d:.06s">
       <div class="merch-imgwrap"><img src="merch/buzo.png" alt="Buzo Supernova"></div>
       <div class="merch-info">
-        <h3>BUZO.EXE</h3>
+        <h3>BUZO</h3>
         <p class="merch-price">$22.000</p>
         <button class="btn-buy">COMPRAR</button>
       </div>
@@ -174,7 +193,7 @@
     <article class="merch-card reveal" style="--rot:-1deg; --d:.12s">
       <div class="merch-imgwrap"><img src="merch/gorra.png" alt="Gorro Supernova"></div>
       <div class="merch-info">
-        <h3>GORRO.EXE</h3>
+        <h3>GORRO</h3>
         <p class="merch-price">$9.000</p>
         <button class="btn-buy">COMPRAR</button>
       </div>
@@ -182,7 +201,7 @@
     <article class="merch-card reveal" style="--rot:2deg; --d:.18s">
       <div class="merch-imgwrap"><img src="merch/tote.png" alt="Tote bag Supernova"></div>
       <div class="merch-info">
-        <h3>TOTE.EXE</h3>
+        <h3>TOTE</h3>
         <p class="merch-price">$8.500</p>
         <button class="btn-buy">COMPRAR</button>
       </div>
@@ -190,7 +209,7 @@
     <article class="merch-card reveal" style="--rot:-1.5deg; --d:.24s">
       <div class="merch-imgwrap"><img src="merch/taza.png" alt="Taza Supernova"></div>
       <div class="merch-info">
-        <h3>TAZA.EXE</h3>
+        <h3>TAZA</h3>
         <p class="merch-price">$7.000</p>
         <button class="btn-buy">COMPRAR</button>
       </div>
@@ -198,7 +217,7 @@
     <article class="merch-card reveal" style="--rot:1deg; --d:.3s">
       <div class="merch-imgwrap"><img src="merch/vinilo.png" alt="Vinilo Supernova"></div>
       <div class="merch-info">
-        <h3>VINILO.EXE</h3>
+        <h3>VINILO</h3>
         <p class="merch-price">$25.000</p>
         <button class="btn-buy">COMPRAR</button>
       </div>
@@ -206,7 +225,7 @@
     <article class="merch-card reveal" style="--rot:-2deg; --d:.36s">
       <div class="merch-imgwrap"><img src="merch/magneticos.png" alt="Magnéticos Supernova"></div>
       <div class="merch-info">
-        <h3>MAGNÉTICOS.EXE</h3>
+        <h3>MAGNÉTICOS</h3>
         <p class="merch-price">$3.500</p>
         <button class="btn-buy">COMPRAR</button>
       </div>
@@ -214,7 +233,7 @@
     <article class="merch-card reveal" style="--rot:1.5deg; --d:.42s">
       <div class="merch-imgwrap"><img src="merch/llavero.png" alt="Llavero Supernova"></div>
       <div class="merch-info">
-        <h3>LLAVERO.EXE</h3>
+        <h3>LLAVERO</h3>
         <p class="merch-price">$4.500</p>
         <button class="btn-buy">COMPRAR</button>
       </div>
@@ -222,8 +241,21 @@
   </div>
 </section>
 
-<footer class="foot">SUPERNOVA · v2 — hecho con canvas + js</footer>
+<!-- footer estilo barra de tareas de SO retro: queda superpuesto al final del hero 3 -->
+<footer class="foot">
+  <a class="foot-start btn95" href="#" aria-label="Volver al inicio">SUPERNOVA</a>
+  <p class="foot-credit">SUPERNOVA.CL 2026 - Realizado por <a class="btn95 btn-base86" href="https://base86.dev" target="_blank" rel="noopener"><i aria-hidden="true"></i>base86</a></p>
+  <div class="foot-tray">
+    <a class="btn95" href="https://open.spotify.com/artist/4hp1i0d15TWg1YN3lCUWgq" target="_blank" rel="noopener">SPOTIFY</a>
+    <span class="tray-clock" id="clock" aria-label="Hora">--:--</span>
+  </div>
+</footer>
 
 <script src="game.js"></script>
+<script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }</script>
+<script src="ticker.js"></script>
+<script src="menu-fx.js"></script>
+<script src="footer.js"></script>
+<script type="module" src="transition.js"></script>
 </body>
 </html>

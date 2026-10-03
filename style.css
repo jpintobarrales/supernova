@@ -1,4 +1,5 @@
 :root {
+  --topbar-h: 49px;
   --purple: #A45CFF;
   --lime: #FFD400;
   --pink: #FF4DCC;
@@ -49,26 +50,81 @@ body {
   filter: drop-shadow(2px 2px 0 rgba(20, 20, 20, .4));
 }
 
-.nav { display: flex; gap: 22px; }
+/* botones del menu: mismos botones pill con sombra dura del resto del sitio */
+.nav { display: flex; gap: 12px; align-items: center; }
 
 .nav a {
+  position: relative;
   color: var(--ink);
   text-decoration: none;
-  font-size: 12px;
-  padding: 2px 6px;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 2px;
+  line-height: 1.2;
+  padding: 6px 16px;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  box-shadow: 3px 3px 0 var(--ink);
+  transition: transform .08s, box-shadow .08s, background .15s;
 }
+.nav a:nth-child(1) { background: var(--cyan); }
+.nav a:nth-child(2) { background: var(--pink); }
+.nav a:nth-child(3) { background: #fff; }
+.nav a:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--ink); }
+.nav a:active { transform: translate(3px, 3px); box-shadow: 0 0 0 var(--ink); }
+.nav a:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
 
-.nav a:hover { background: var(--ink); color: var(--lime); }
+/* efecto de click: palabra CLICK + corazoncito pixelado (menu-fx.js) */
+.click-fx {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-family: 'Silkscreen', monospace;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: var(--lime);
+  text-shadow: 2px 0 var(--ink), -2px 0 var(--ink), 0 2px var(--ink), 0 -2px var(--ink), 2px 2px var(--ink), -2px -2px var(--ink), 2px -2px var(--ink), -2px 2px var(--ink);
+  white-space: nowrap;
+  transform: translate(-50%, -50%);
+  animation: clickPop .75s cubic-bezier(.2, .8, .3, 1) forwards;
+}
+.click-fx .heart {
+  width: 14px; height: 12px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 6' shape-rendering='crispEdges'%3E%3Cpath fill='%23FF4DCC' d='M1 0h2v1h1V0h2v1h1v2H6v1H5v1H4v1H3V5H2V4H1V3H0V1h1z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  image-rendering: pixelated;
+  filter: drop-shadow(1px 0 0 var(--ink)) drop-shadow(-1px 0 0 var(--ink)) drop-shadow(0 1px 0 var(--ink)) drop-shadow(0 -1px 0 var(--ink));
+}
+@keyframes clickPop {
+  0%   { opacity: 0; transform: translate(-50%, -30%) scale(.5) rotate(-6deg); }
+  18%  { opacity: 1; transform: translate(-50%, -70%) scale(1.15) rotate(-4deg); }
+  100% { opacity: 0; transform: translate(-50%, -190%) scale(1) rotate(3deg); }
+}
+@media (prefers-reduced-motion: reduce) { .click-fx { display: none; } }
 
 @media (max-width: 560px) {
+  :root { --topbar-h: 39px; }
   .topbar { gap: 8px; padding: 8px 12px; }
-  .logo img { height: 20px; }
-  .nav { gap: 6px; }
-  .nav a { font-size: 9px; padding: 2px 3px; }
+  .logo img { height: 18px; }
+  .nav { gap: 5px; }
+  .nav a { font-size: 9px; padding: 4px 7px; box-shadow: 2px 2px 0 var(--ink); letter-spacing: .8px; }
+  .nav a:active { transform: translate(2px, 2px); }
+  .click-fx { font-size: 11px; }
   .hero { gap: 14px; padding: 16px 10px 56px; }
   .hero-logo { width: min(560px, 90vw); max-width: 100%; }
   .chars { gap: 12px; }
   .char { width: 112px; padding: 8px 6px 8px; border-radius: 12px; }
+}
+
+@media (max-width: 380px) {
+  .logo img { height: 15px; }
+  .topbar { padding: 8px 8px; gap: 6px; }
+  .nav { gap: 4px; }
+  .nav a { font-size: 8px; padding: 3px 6px; letter-spacing: .5px; }
 }
 
 /* ---------- hero ---------- */
@@ -83,15 +139,15 @@ main {
 
 .hero {
   position: relative;
-  min-height: calc(100svh - 48px);
+  min-height: calc(100svh - var(--topbar-h));
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 22px;
+  gap: 30px;
   overflow: hidden;
   background: url('personajes/fondo_general.png') center / cover no-repeat #FFE9F4;
-  padding: 24px 16px 64px;
+  padding: 40px 16px 88px;
 }
 
 .hero-fx {
@@ -106,7 +162,7 @@ main {
   position: relative;
   z-index: 1;
   display: block;
-  width: min(1040px, 96vw);
+  width: min(1180px, 96vw);
   height: auto;
   margin-top: 6px;
   animation: heroFloat 4.5s ease-in-out infinite;
@@ -150,6 +206,7 @@ main {
   text-decoration: none;
   font-size: 16px;
   animation: hintBounce 1.6s ease-in-out infinite;
+  z-index: 9; /* sobre los pixeles de la transicion, bajo el menu */
 }
 
 @keyframes hintBounce {
@@ -337,13 +394,65 @@ main {
 
 .howto span { color: #D63384; }
 
+/* footer = barra de tareas estilo Windows 95/98 (gris clasico, botones biselados, sin iconos), superpuesta al final del hero 3 */
+:root { --foot-h: 56px; --w95: #C0C0C0; }
 .foot {
   position: relative;
-  z-index: 1;
-  text-align: center;
-  color: rgba(20, 20, 20, .75);
+  z-index: 6;
+  height: var(--foot-h);
+  margin-top: calc(-1 * var(--foot-h));
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 14px;
+  padding: 0 8px;
+  background: var(--w95);
+  border-top: 3px solid var(--ink);
+  box-shadow: inset 0 2px 0 #fff, inset 0 3px 0 #dfdfdf;
+  color: #000;
   font-size: 10px;
-  padding: 18px;
+  letter-spacing: 1px;
+}
+/* boton Win95: biselado (blanco arriba/izq, gris oscuro y negro abajo/der); al apretar se hunde */
+.btn95 {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  min-height: 32px; padding: 0 16px;
+  background: var(--w95); color: #000;
+  font-family: inherit; font-weight: 700; font-size: 12px; letter-spacing: 1.5px;
+  text-decoration: none; white-space: nowrap; cursor: pointer;
+  border: 0;
+  box-shadow: inset -1px -1px 0 #0a0a0a, inset 1px 1px 0 #fff, inset -2px -2px 0 #808080, inset 2px 2px 0 #dfdfdf;
+}
+.btn95:active {
+  box-shadow: inset 1px 1px 0 #0a0a0a, inset -1px -1px 0 #fff, inset 2px 2px 0 #808080, inset -2px -2px 0 #dfdfdf;
+  padding: 2px 15px 0 17px;
+}
+.btn95:focus-visible { outline: 1px dotted #000; outline-offset: -5px; }
+.foot-start { font-size: 13px; padding: 0 20px; }
+.foot-credit { margin: 0; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 8px; text-align: center; font-size: 11px; letter-spacing: 1.5px; }
+.btn-base86 { min-height: 26px; padding: 0 10px; font-size: 11px; letter-spacing: 1px; }
+.btn-base86 i {
+  width: 13px; height: 13px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 11' shape-rendering='crispEdges'%3E%3Crect x='0' y='1' width='5' height='4' fill='%23FF4DCC'/%3E%3Crect x='6' y='0' width='5' height='4' fill='%234DE3FF'/%3E%3Crect x='0' y='6' width='5' height='4' fill='%23FFD400'/%3E%3Crect x='6' y='5' width='5' height='4' fill='%23A45CFF'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  image-rendering: pixelated;
+}
+.foot-tray { display: flex; align-items: center; gap: 6px; }
+/* panel hundido de la bandeja del sistema */
+.tray-clock {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 72px; height: 32px; padding: 0 10px;
+  font-size: 11px; font-weight: 700; letter-spacing: 1px;
+  box-shadow: inset 1px 1px 0 #808080, inset -1px -1px 0 #fff, inset 2px 2px 0 #0a0a0a;
+}
+@media (max-width: 900px) {
+  :root { --foot-h: 92px; }
+  .foot { grid-template-columns: 1fr auto; grid-template-areas: 'credit credit' 'start tray'; row-gap: 6px; padding: 6px 8px; }
+  .foot-credit { grid-area: credit; font-size: 9px; letter-spacing: 1px; gap: 6px; }
+  .btn-base86 { min-height: 22px; padding: 0 8px; font-size: 9px; }
+  .foot-start { grid-area: start; justify-self: start; font-size: 11px; padding: 0 14px; }
+  .foot-tray { grid-area: tray; }
+  .btn95 { min-height: 28px; font-size: 10px; padding: 0 12px; }
+  .tray-clock { height: 28px; min-width: 60px; font-size: 10px; }
 }
 
 /* ============ BIO + MERCH (landing retro-OS) ============ */
@@ -354,19 +463,22 @@ main {
     linear-gradient(90deg, rgba(255,255,255,.16) 1px, transparent 1px),
     linear-gradient(160deg, #7c3aed 0%, #a855f7 35%, #ec4899 100%);
   background-size: 64px 64px, 64px 64px, cover;
-  border-top: 3px solid var(--ink);
+  border-top: 0;
   padding: 84px 20px 96px;
   overflow: hidden;
+  overflow: clip;
 }
 
 /* la BIO ocupa toda la pantalla, como el home */
 .bio-section {
-  min-height: 100svh;
+  min-height: calc(100svh - var(--topbar-h));
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;   /* el ticker queda pegado arriba; el contenido se centra con margin auto */
   padding: 70px 20px 84px;
 }
+.bio-section .bio-wrap { margin-block: auto; }
 
 /* FX flotantes de la bio (detras de las ventanas) */
 .bio-fx { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
@@ -402,17 +514,22 @@ main {
   font-size: 12px;
   letter-spacing: 1px;
 }
+/* botones de ventana (minimizar / maximizar / cerrar): pixel-art 9x9 dibujado en SVG, bordes nitidos */
 .os-buttons { display: inline-flex; gap: 6px; }
 .os-buttons i {
-  width: 12px; height: 12px;
+  width: 22px; height: 22px;
   border: 2px solid var(--ink);
-  background: var(--paper);
-  position: relative;
+  background-color: var(--paper);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 18px 18px;
+  image-rendering: pixelated;
+  box-shadow: inset 2px 2px 0 rgba(255, 255, 255, .75), inset -2px -2px 0 rgba(20, 20, 20, .22);
   display: inline-block;
 }
-.os-buttons .b1::after { content: "_"; position: absolute; inset: -4px 0 0 1px; color: var(--ink); font-size: 10px; line-height: 12px; }
-.os-buttons .b2::after { content: "▢"; position: absolute; inset: -3px 0 0 0; color: var(--ink); font-size: 8px; line-height: 12px; text-align: center; }
-.os-buttons .b3::after { content: "✕"; position: absolute; inset: -3px 0 0 0; color: var(--ink); font-size: 9px; line-height: 12px; text-align: center; }
+.os-buttons .b1 { background-color: var(--lime); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Crect x='2' y='5' width='5' height='2' fill='%23141414'/%3E%3C/svg%3E"); }
+.os-buttons .b2 { background-color: var(--cyan); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Cpath fill-rule='evenodd' d='M2 2h5v5H2zM3 4h3v2H3z' fill='%23141414'/%3E%3C/svg%3E"); }
+.os-buttons .b3 { background-color: var(--pink); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Crect x='2' y='2' width='1' height='1' fill='%23141414'/%3E%3Crect x='3' y='3' width='1' height='1' fill='%23141414'/%3E%3Crect x='4' y='4' width='1' height='1' fill='%23141414'/%3E%3Crect x='5' y='5' width='1' height='1' fill='%23141414'/%3E%3Crect x='6' y='6' width='1' height='1' fill='%23141414'/%3E%3Crect x='6' y='2' width='1' height='1' fill='%23141414'/%3E%3Crect x='5' y='3' width='1' height='1' fill='%23141414'/%3E%3Crect x='3' y='5' width='1' height='1' fill='%23141414'/%3E%3Crect x='2' y='6' width='1' height='1' fill='%23141414'/%3E%3C/svg%3E"); }
 .os-body { padding: 30px 30px 36px; }
 
 /* ventana de spotify */
@@ -522,10 +639,11 @@ main {
 
 /* ticker marquee */
 .ticker {
-  background: var(--ink);
+  background: rgba(20, 20, 20, .55);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
   color: var(--lime);
-  border-top: 3px solid var(--ink);
-  border-bottom: 3px solid var(--ink);
+  border: 0;
   overflow: hidden;
   padding: 10px 0;
   white-space: nowrap;
@@ -535,6 +653,11 @@ main {
   animation: tick 15s linear infinite;
   font-size: 14px;
   letter-spacing: 2px;
+}
+/* ticker.js repite el texto para llenar todo el ancho y desplaza exactamente 1 repeticion (--unit) */
+@keyframes tickLoop {
+  from { transform: translateX(0); }
+  to   { transform: translateX(calc(-1 * var(--unit))); }
 }
 @keyframes tick {
   from { transform: translateX(0); }
@@ -590,17 +713,21 @@ main {
 .btn-buy {
   width: 100%;
   font-family: inherit;
-  font-size: 10px;
+  font-weight: 700;
+  font-size: 12px;
   letter-spacing: 1px;
-  padding: 10px 8px;
+  padding: 10px 12px;
   background: var(--lime);
   color: var(--ink);
-  border: 2px solid var(--ink);
-  box-shadow: 3px 3px 0 var(--ink);
+  border: 3px solid var(--ink);
+  border-radius: 999px;
+  box-shadow: 4px 4px 0 var(--ink);
   cursor: pointer;
+  transition: background .15s, transform .08s, box-shadow .08s;
 }
 .btn-buy:hover { background: var(--pink); color: var(--ink); }
-.btn-buy:active { transform: translate(3px, 3px); box-shadow: 0 0 0 var(--ink); }
+.btn-buy:active { transform: translate(4px, 4px); box-shadow: 0 0 0 var(--ink); }
+.btn-buy:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 
 /* reveal on scroll */
 .reveal {
@@ -621,43 +748,79 @@ main {
   .os-body { padding: 20px 16px 26px; }
 }
 
-/* proximas fechas (cuadrito del home) */
+/* proximas fechas (home): una tarjeta por concierto, con fondo de franjas y su boton de tickets */
 .tbar-cyan { background: var(--cyan); color: var(--ink); }
 .shows-window { width: min(920px, 96vw); margin-top: 20px; }
-.shows-body { padding: 14px 16px 16px; }
-.shows-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-.show {
-  border: 2px solid var(--ink);
-  box-shadow: 3px 3px 0 var(--ink);
-  padding: 9px 6px 10px;
-  text-align: center;
-  background: #fff;
+.shows-body { padding: 16px 22px 24px; }
+.cta-note { font-size: 10px; letter-spacing: 1.5px; text-align: center; margin: 0 0 16px; }
+.shows-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.show-card {
+  display: grid;
+  grid-template-columns: 150px 1fr auto;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  border: 3px solid var(--ink);
+  background: repeating-linear-gradient(135deg, #fff 0 8px, #fff6c2 8px 16px);
+  box-shadow: 5px 5px 0 var(--ink);
+  transition: transform .15s, box-shadow .15s;
 }
-.show:nth-child(1) { background: var(--lime); }
-.show:nth-child(2) { background: #fff; }
-.show:nth-child(3) { background: var(--pink); }
-.show:nth-child(4) { background: var(--cyan); }
-.show b { display: block; font-size: 12px; letter-spacing: .5px; }
-.show span { display: block; font-size: 11px; margin-top: 4px; }
-.show em { display: block; font-style: normal; font-size: 9px; letter-spacing: 1.5px; opacity: .7; margin-top: 3px; }
+.show-card:hover { transform: translate(-2px, -2px); box-shadow: 7px 7px 0 var(--ink); }
+.show-card b { font-size: 14px; letter-spacing: .5px; white-space: nowrap; }
+.show-card b::before { content: "▸ "; color: var(--pink); }
+.show-info span { display: block; font-size: 12px; }
+.show-info em { display: block; font-style: normal; font-size: 10px; letter-spacing: 1.5px; opacity: .7; margin-top: 4px; }
+.btn-tickets {
+  display: inline-block;
+  font-family: inherit; font-weight: 700; font-size: 13px; letter-spacing: 1px;
+  text-align: center; text-decoration: none; white-space: nowrap;
+  background: var(--lime); color: var(--ink);
+  border: 3px solid var(--ink); border-radius: 999px;
+  padding: 10px 20px;
+  box-shadow: 4px 4px 0 var(--ink);
+  transition: background .15s, transform .08s, box-shadow .08s;
+}
+.btn-tickets:hover { background: var(--pink); }
+.btn-tickets:active { transform: translate(4px, 4px); box-shadow: 0 0 0 var(--ink); }
+.btn-tickets:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 @media (max-width: 700px) {
-  .shows-grid { grid-template-columns: repeat(2, 1fr); }
+  .shows-body { padding: 14px 14px 20px; }
+  .show-card { grid-template-columns: 1fr; gap: 8px; padding: 12px; }
+  .show-card .btn-tickets { width: 100%; padding: 11px 10px; }
 }
 
-/* barra ticker de Spotify: franja superior estatica de la bio (hero 2) */
+/* barra ticker de Spotify: marquee sticky pegada bajo el menu mientras se recorre la bio */
 .spotify-ticker {
-  position: absolute;
-  top: 0; left: 0; right: 0;
+  position: sticky;
+  top: var(--topbar-h);
+  z-index: 5;
+  align-self: stretch;
   display: block;
+  margin: -70px -20px 28px;
   text-decoration: none;
   border-top: 0;
 }
 .spotify-ticker:hover { color: var(--pink); }
 .spotify-ticker .ticker-track { animation-duration: 12s; }
 
-/* fondo de merch: las Conis pixeladas sobre amarillo #FFD400 (sprite del usuario) */
+/* fondo de merch: papel cuadriculado en degrade rosa (sprite del usuario) */
 .merch-section {
-  background: url('sprites/fondo_merch.jpg') center bottom / cover no-repeat #FFD400;
+  padding-bottom: calc(var(--foot-h) + 74px); /* deja espacio al footer superpuesto */
+  background: url('sprites/fondo_merch.jpg') center bottom / cover no-repeat #FF4DCC;
+  min-height: calc(100svh - var(--topbar-h)); /* llena la pantalla como los otros heroes */
 }
 .merch-fx { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+
+/* ticker del hero 3: pegado arriba y sticky bajo el menu (igual que el de Spotify en la bio) */
+.merch-ticker {
+  position: sticky;
+  top: var(--topbar-h);
+  z-index: 5;
+  margin: -84px -20px 52px;
+  border-top: 0;
+}
+
 .merch-heading, .merch-sub, .merch-grid { position: relative; z-index: 2; }
+
+/* transicion despixelada entre heroes (three.js, transition.js) */
+.seam-fx { position: absolute; left: 0; bottom: 0; width: 100%; z-index: 8; pointer-events: none; }

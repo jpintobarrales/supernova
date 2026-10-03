@@ -1049,14 +1049,16 @@ loadSprite((img) => { SPRITES.bg = img; }, 'bg');
     };
   }
 
+  const SPARK_COLORS = ['#FFFFFF', '#FFFFFF', '#FF9AD5', '#FFD400', '#4DE3FF'];
+
   function spawnSpark(anywhere) {
     return {
       x: rnd(0, W),
-      y: rnd(0, H * 0.9),
-      s: rnd(2, 5),
+      y: rnd(0, H * 0.95),
+      s: rnd(2, 6),
       ph: rnd(0, TAU),
-      speed: rnd(0.02, 0.05),
-      color: Math.random() < 0.5 ? '#FFFFFF' : '#FF9AD5',
+      speed: rnd(0.02, 0.055),
+      color: SPARK_COLORS[(Math.random() * SPARK_COLORS.length) | 0],
     };
   }
 
@@ -1085,13 +1087,15 @@ loadSprite((img) => { SPRITES.bg = img; }, 'bg');
 
   function drawSpark(s, t) {
     const tw = (Math.sin((t + s.ph) / (s.speed * 120)) + 1) / 2;
-    if (tw < 0.35) return;
-    g.globalAlpha = tw * 0.9;
+    if (tw < 0.15) return;
+    const flare = 1 + tw * tw * 1.8;
+    const a = s.s * flare;
     g.fillStyle = s.color;
-    const a = s.s;
+    g.globalAlpha = 0.3 + tw * 0.7;
     g.fillRect(s.x - a, s.y - 1, a * 2, 2);
     g.fillRect(s.x - 1, s.y - a, 2, a * 2);
     g.globalAlpha = 1;
+    g.fillRect(s.x - 1, s.y - 1, 2, 2);
   }
 
   function tick(now) {
@@ -1119,8 +1123,9 @@ loadSprite((img) => { SPRITES.bg = img; }, 'bg');
   }
 
   if (!resize()) return;
-  hearts = Array.from({ length: 18 }, () => spawnHeart(true));
-  sparks = Array.from({ length: 26 }, () => spawnSpark(true));
+  const area = W * H;
+  hearts = Array.from({ length: Math.max(16, Math.min(30, Math.round(area / 80000))) }, () => spawnHeart(true));
+  sparks = Array.from({ length: Math.max(48, Math.min(130, Math.round(area / 15000))) }, () => spawnSpark(true));
   window.addEventListener('resize', resize);
 
   if ('IntersectionObserver' in window) {
@@ -1239,15 +1244,24 @@ loadSprite((img) => { SPRITES.bg = img; }, 'bg');
     }
   }
 
-  /* el anchor #bio debe aterrizar debajo del menu sticky */
-  syncBioMargin();
+  /* los anchors deben aterrizar debajo del menu sticky */
+  syncScrollMargins();
   if (typeof window.addEventListener === 'function') {
-    window.addEventListener('resize', syncBioMargin, { passive: true });
+    window.addEventListener('resize', syncScrollMargins, { passive: true });
   }
-  function syncBioMargin() {
+  function syncScrollMargins() {
     const topbar = document.querySelector('.topbar');
     if (!topbar || typeof topbar.offsetHeight !== 'number') return;
-    sec.style.scrollMarginTop = topbar.offsetHeight + 'px';
+    const th = topbar.offsetHeight;
+    document.documentElement.style.setProperty('--topbar-h', th + 'px');
+    sec.style.scrollMarginTop = th + 'px';
+    const tk = document.querySelector('#ticker-main');
+    const tkh = tk && typeof tk.offsetHeight === 'number' ? tk.offsetHeight : 0;
+    const juego = document.querySelector('#juego');
+    if (juego && juego.style) juego.style.scrollMarginTop = (th + tkh) + 'px';
+    const merch = document.querySelector('#merch');
+    if (!merch || !merch.style) return;
+    merch.style.scrollMarginTop = th + 'px';
   }
 
   function freeSpot() {
@@ -1407,24 +1421,26 @@ loadSprite((img) => { SPRITES.bg = img; }, 'bg');
   const sec = cv.parentElement;
   if (!g || !sec) return;
   const TAU = Math.PI * 2;
-  const COLORS = ['#FF4DCC', '#4DE3FF', '#A45CFF', '#FFFFFF'];
+  const COLORS = ['#FFFFFF', '#4DE3FF', '#FFD400', '#A45CFF'];
+  // halo de cada color (el blanco brilla en rosa para que se note sobre el fondo claro)
+  const GLOW = { '#FFFFFF': '#FF4DCC', '#4DE3FF': '#4DE3FF', '#FFD400': '#FFB300', '#A45CFF': '#A45CFF' };
   const reduced = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
   let W = 0, H = 0, stars = [], running = false, raf = 0;
 
   const rnd = (a, b) => a + Math.random() * (b - a);
 
   function seed() {
-    const n = Math.max(36, Math.min(110, Math.round((W * H) / 22000)));
+    const n = Math.max(70, Math.min(170, Math.round((W * H) / 11000)));
     stars = [];
     for (let i = 0; i < n; i++) {
       stars.push({
         x: rnd(0, W),
         y: rnd(0, H * 0.92),
-        r: rnd(1.4, 3.6),
+        r: rnd(1.8, 4.4),
         ph: rnd(0, TAU),
         sp: rnd(0.6, 2.2),
         c: COLORS[(Math.random() * COLORS.length) | 0],
-        rays: Math.random() < 0.22,
+        rays: Math.random() < 0.4,
       });
     }
   }
@@ -1444,6 +1460,8 @@ loadSprite((img) => { SPRITES.bg = img; }, 'bg');
     const r = s.r;
     g.globalAlpha = a;
     g.fillStyle = s.c;
+    g.shadowColor = GLOW[s.c] || s.c;   // brillo suave alrededor de la estrella
+    g.shadowBlur = r * 3.2;
     g.beginPath();
     g.moveTo(s.x, s.y - r);
     g.lineTo(s.x + r * 0.5, s.y);
@@ -1452,10 +1470,11 @@ loadSprite((img) => { SPRITES.bg = img; }, 'bg');
     g.closePath();
     g.fill();
     if (s.rays) {
-      g.globalAlpha = a * 0.6;
-      g.fillRect(s.x - r * 1.8, s.y - 0.5, r * 3.6, 1);
-      g.fillRect(s.x - 0.5, s.y - r * 1.8, 1, r * 3.6);
+      g.globalAlpha = a * 0.9;
+      g.fillRect(s.x - r * 2.4, s.y - 0.5, r * 4.8, 1);
+      g.fillRect(s.x - 0.5, s.y - r * 2.4, 1, r * 4.8);
     }
+    g.shadowBlur = 0;
   }
 
   function frame(t) {
@@ -1465,7 +1484,7 @@ loadSprite((img) => { SPRITES.bg = img; }, 'bg');
     for (let i = 0; i < stars.length; i++) {
       const s = stars[i];
       const tw = 0.5 + 0.5 * Math.sin(time * s.sp + s.ph);
-      drawStar(s, 0.15 + 0.85 * tw * tw);
+      drawStar(s, 0.3 + 0.7 * Math.pow(tw, 1.3));
     }
     g.globalAlpha = 1;
     raf = requestAnimationFrame(frame);
