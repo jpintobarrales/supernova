@@ -259,6 +259,9 @@ main {
 .screen:fullscreen .fs-btn { top: 12px; right: 12px; }
 /* fallback para iOS / navegadores sin Fullscreen API */
 .screen.fs-fallback { position: fixed; inset: 0; z-index: 9999; background: #000; display: flex; align-items: center; justify-content: center; border-color: transparent; }
+/* el cabinet sube sobre todo (tarjetas de fechas, menu, ticker) mientras el fallback esta activo */
+.cabinet.fs-open { z-index: 9999; }
+html.fs-lock, html.fs-lock body { overflow: hidden; }
 .screen.fs-fallback #game { width: 100%; height: 100%; object-fit: contain; }
 .screen.fs-fallback .fs-btn { top: 12px; right: 12px; }
 

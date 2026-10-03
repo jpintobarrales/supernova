@@ -989,9 +989,22 @@ fsBtn.addEventListener('click', () => {
     if (document.fullscreenElement && typeof document.exitFullscreen === 'function') document.exitFullscreen().catch(() => {});
     else scr.requestFullscreen().catch(() => {});
   } else if (scr.classList) {
-    scr.classList.toggle('fs-fallback'); // iOS y navegadores sin Fullscreen API
+    setFsFallback(scr, !scr.classList.contains('fs-fallback')); // iOS y navegadores sin Fullscreen API
   }
   fsBtn.blur();
+});
+// En el fallback el .screen es position:fixed, pero vive dentro de .cabinet (z-index:1), asi que las
+// tarjetas de proximas fechas (z-index mayor) quedaban por delante del juego. Se sube el cabinet entero
+// por encima de todo y se bloquea el scroll de la pagina mientras dura la pantalla completa.
+function setFsFallback(scr, on) {
+  scr.classList.toggle('fs-fallback', on);
+  const cab = scr.closest('.cabinet');
+  if (cab) cab.classList.toggle('fs-open', on);
+  document.documentElement.classList.toggle('fs-lock', on);
+}
+window.addEventListener('keydown', (e) => {
+  const scr = document.querySelector('.screen.fs-fallback');
+  if (e.key === 'Escape' && scr) setFsFallback(scr, false);
 });
 fsBtn.addEventListener('pointerdown', (e) => e.stopPropagation());
 replayBtn.addEventListener('click', () => { game.start(); replayBtn.blur(); });
