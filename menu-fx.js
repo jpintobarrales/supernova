@@ -1,7 +1,7 @@
-// Efecto de click del menu (y del boton base86 del footer): aparece la palabra "CLICK" con un corazoncito pixelado
+// Efecto de click del menu (y de los botones SUPERNOVA y base86 del footer): aparece la palabra "CLICK" con un corazoncito pixelado
 // justo donde se hizo click (o sobre el boton si se activa con teclado).
 (function () {
-  const links = document.querySelectorAll('.nav a, .btn-base86');
+  const links = document.querySelectorAll('.nav a, .btn-base86, .foot-start');
   if (!links.length) return;
   if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
